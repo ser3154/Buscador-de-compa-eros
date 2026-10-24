@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -128,6 +129,60 @@ fun InfoBanner(title: String, subtitle: String, onClick: (() -> Unit)? = null){
         Text(title, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = CoincideDark)
         Spacer(Modifier.height(4.dp))
         Text(subtitle, fontSize = 11.sp, color = CoincideTeal)
+    }
+}
+
+@Composable
+fun CategoryChip(text: String, selected: Boolean = false, onClick: () -> Unit = {}) {
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(50))
+            .background(if (selected) CoincidePrimary else CoincideSoft)
+            .clickable { onClick() }
+            .padding(horizontal = 14.dp, vertical = 7.dp)
+    ) {
+        Text(
+            text,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Medium,
+            color = if (selected) CoincideDark else CoincideTeal
+        )
+    }
+}
+
+@Composable
+fun CoincideTextArea(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String = "",
+    helper: String? = null,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Text(label, fontSize = 12.sp, fontWeight = FontWeight.Medium, color = CoincideDark)
+        Spacer(Modifier.height(6.dp))
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            placeholder = { Text(placeholder, fontSize = 13.sp, color = CoincideHint) },
+            minLines = 4,
+            maxLines = 6,
+            shape = RoundedCornerShape(10.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                focusedBorderColor = CoincidePrimary,
+                unfocusedBorderColor = CoincideBorder,
+                focusedTextColor = CoincideDark,
+                unfocusedTextColor = CoincideDark
+            ),
+            modifier = Modifier.fillMaxWidth()
+        )
+        if (helper != null) {
+            Spacer(Modifier.height(4.dp))
+            Text(helper, fontSize = 11.sp, color = CoincideHint)
+        }
     }
 }
 

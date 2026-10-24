@@ -5,11 +5,7 @@ plugins {
 
 android {
     namespace = "servando.contreras.buscadordecompaerosdeactividades"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "servando.contreras.buscadordecompaerosdeactividades"
@@ -44,6 +40,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation("androidx.navigation:navigation-compose:2.8.4")
+    implementation("androidx.compose.material:material-icons-core")
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
