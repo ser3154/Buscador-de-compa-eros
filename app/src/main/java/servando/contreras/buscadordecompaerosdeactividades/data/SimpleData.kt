@@ -13,7 +13,6 @@ object SampleData {
             date = "Sáb. 17 oct. · 16:30",
             title = "Café, apuntes y foco",
             place = "Café La Bicicleta, Malasaña · 0.8 km"
-            // imageRes = R.drawable.plan_cafe
         ),
         Plan(
             id = 2,

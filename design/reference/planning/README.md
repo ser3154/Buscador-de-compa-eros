@@ -1,9 +1,9 @@
 # Calendario y solicitudes de participación
 
-Pantallas implementadas en Kotlin con Jetpack Compose a partir del Figma del proyecto:
+Pantallas implementadas en Kotlin con Jetpack Compose a partir del diseño del proyecto:
 
-- [Calendario, 17 de octubre (95:3106)](https://www.figma.com/design/05MiMi6YvU5fRK1ZgGmywa?node-id=95-3106)
-- [Solicitudes pendientes (95:4050)](https://www.figma.com/design/05MiMi6YvU5fRK1ZgGmywa?node-id=95-4050)
+- Calendario, 17 de octubre.
+- Solicitudes pendientes.
 
 ## Navegación
 
@@ -15,7 +15,7 @@ Entrar → Mis planes → Solicitudes para participar. La flecha superior permit
 
 Los datos son locales de demostración; no existe conexión con un servidor. «Ver actividad» muestra un resumen en un diálogo hasta conectar la pantalla de detalle del equipo. Mensajes y Perfil muestran un aviso mientras se integran esas rutas. Se adaptó el regreso de solicitudes al calendario para poder recorrer ambas pantallas.
 
-Los SVG y PNG originales se conservan como referencia de Figma. La barra inferior usa ahora el componente compartido CoincideNavigationBar con los iconos Material del inicio. Las pantallas usan la fuente sans serif del sistema.
+Los SVG y PNG originales se conservan como referencia del diseño. La barra inferior usa ahora el componente compartido CoincideNavigationBar con los iconos Material del inicio. Las pantallas usan la fuente sans serif del sistema.
 
 
 ## Tema y barra compartida
