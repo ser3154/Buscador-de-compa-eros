@@ -1,6 +1,5 @@
 package servando.contreras.buscadordecompaerosdeactividades.screens
 
-import android.view.RoundedCorner
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,10 +13,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Place
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,48 +33,21 @@ import servando.contreras.buscadordecompaerosdeactividades.ui.theme.*
 fun ExploreScreen(onNewActivity: () -> Unit){
     var search by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf("Todo") }
-    var selectedTab by remember { mutableStateOf(0) }
 
     val categories = SampleData.filterCategories
     val plans = SampleData.plans
-    val tabs = listOf(
-        "Explorar" to Icons.Default.Place,
-        "Mis planes" to Icons.Default.DateRange,
-        "Mensajes" to Icons.Default.Email,
-        "Perfil" to Icons.Default.Person
-    )
-
     Scaffold(
         containerColor = CoincideBackground,
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNewActivity,
                 containerColor = CoincidePrimary,
-                contentColor = CoincideDark,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Nueva actividad")
             }
         },
-        bottomBar = {
-            NavigationBar(containerColor = Color.White) {
-                tabs.forEachIndexed { index, (label, icon) ->
-                    NavigationBarItem(
-                        selected = selectedTab == index,
-                        onClick = { selectedTab = index },
-                        icon = { Icon(icon, contentDescription = label) },
-                        label = { Text (label, fontSize = 10.sp) },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = CoincideTeal,
-                            selectedTextColor = CoincideTeal,
-                            indicatorColor = CoincideSoft,
-                            unselectedIconColor = CoincideHint,
-                            unselectedTextColor = CoincideHint
-                        )
-                    )
-                }
-            }
-        }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -129,8 +97,8 @@ fun ExploreScreen(onNewActivity: () -> Unit){
                 singleLine = true,
                 shape = RoundedCornerShape(10.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                     focusedBorderColor = CoincidePrimary,
                     unfocusedBorderColor = CoincideBorder,
                     focusedTextColor = CoincideDark,
@@ -185,7 +153,7 @@ private fun PlanCard(plan: Plan) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape)
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .border(1.dp, CoincideBorder, shape)
     ) {
         if (plan.imageRes != null) {
