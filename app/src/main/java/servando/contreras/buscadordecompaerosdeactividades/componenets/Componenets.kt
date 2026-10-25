@@ -50,8 +50,8 @@ import servando.contreras.buscadordecompaerosdeactividades.ui.theme.CoincideTeal
             visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
             keyboardOptions = KeyboardOptions(keyboardType = if (isPassword) KeyboardType.Password else keyboardType),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                 focusedBorderColor = CoincidePrimary,
                 unfocusedBorderColor = CoincideBorder,
                 focusedTextColor = CoincideDark,
@@ -67,12 +67,14 @@ import servando.contreras.buscadordecompaerosdeactividades.ui.theme.CoincideTeal
 }
 
 @Composable
-fun PrimaryButton (text: String, onClick: () -> Unit, modifier: Modifier = Modifier){
+fun PrimaryButton (text: String, onClick: () -> Unit, modifier: Modifier = Modifier,
+                   containerColor: Color = CoincidePrimary, contentColor: Color = MaterialTheme.colorScheme.onPrimary,
+                   cornerRadius: androidx.compose.ui.unit.Dp = 10.dp){
     Button(
         onClick = onClick,
         modifier = modifier.fillMaxWidth().height(48.dp),
-        shape = RoundedCornerShape(10.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = CoincidePrimary, contentColor = CoincideDark)
+        shape = RoundedCornerShape(cornerRadius),
+        colors = ButtonDefaults.buttonColors(containerColor = containerColor, contentColor = contentColor)
     ) {
         Text(text, fontSize = 14.sp, fontWeight = FontWeight.Medium)
     }
@@ -96,7 +98,7 @@ fun OutlineButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifi
         modifier = modifier.fillMaxWidth().height(48.dp),
         shape = RoundedCornerShape(10.dp),
         border = BorderStroke(1.dp, CoincideBorder),
-        colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.White, contentColor = CoincideTeal)
+        colors = ButtonDefaults.outlinedButtonColors(containerColor = MaterialTheme.colorScheme.surface, contentColor = CoincideTeal)
     ) {
         Text(text, fontSize = 13.sp, textAlign = TextAlign.Center)
     }
@@ -108,7 +110,7 @@ fun BackButton(onClick: () -> Unit){
         modifier = Modifier
             .size(38.dp)
             .border(1.dp, CoincideBorder, RoundedCornerShape(12.dp))
-            .background(Color.White, RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(12.dp))
             .clickable{ onClick() },
         contentAlignment = Alignment.Center
     ){
@@ -145,7 +147,7 @@ fun CategoryChip(text: String, selected: Boolean = false, onClick: () -> Unit = 
             text,
             fontSize = 11.sp,
             fontWeight = FontWeight.Medium,
-            color = if (selected) CoincideDark else CoincideTeal
+            color = if (selected) MaterialTheme.colorScheme.onPrimary else CoincideTeal
         )
     }
 }
@@ -170,8 +172,8 @@ fun CoincideTextArea(
             maxLines = 6,
             shape = RoundedCornerShape(10.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                 focusedBorderColor = CoincidePrimary,
                 unfocusedBorderColor = CoincideBorder,
                 focusedTextColor = CoincideDark,
@@ -185,4 +187,5 @@ fun CoincideTextArea(
         }
     }
 }
+
 
