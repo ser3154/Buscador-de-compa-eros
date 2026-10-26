@@ -1,5 +1,6 @@
 package servando.contreras.buscadordecompaerosdeactividades.navigation
 
+import ActivityDetailScreen
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
@@ -21,6 +22,8 @@ import servando.contreras.buscadordecompaerosdeactividades.screens.ForgotPasswor
 import servando.contreras.buscadordecompaerosdeactividades.screens.LoginScreen
 import servando.contreras.buscadordecompaerosdeactividades.screens.NewActivityScreen
 import servando.contreras.buscadordecompaerosdeactividades.screens.RegisterScreen
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
 object Routes {
     const val LOGIN = "login"
@@ -30,6 +33,9 @@ object Routes {
     const val NEW_ACTIVITY = "new_activity"
     const val CALENDAR = "calendar"
     const val PARTICIPATION_REQUESTS = "participation_requests"
+    const val ACTIVITY_DETAIL = "activity_detail/{activityId}"
+
+    fun activityDetail(id: Int) = "activity_detail/$id"
 }
 
 @Composable
@@ -118,12 +124,14 @@ fun AppNavigation() {
                     onPublish = { navController.popBackStack() }
                 )
             }
+
             composable(Routes.CALENDAR) {
                 CalendarScreen(
                     onBack = { navController.popBackStack() },
                     onRequests = { navController.navigate(Routes.PARTICIPATION_REQUESTS) { launchSingleTop = true } }
                 )
             }
+
             composable(Routes.PARTICIPATION_REQUESTS) {
                 ParticipationRequestsScreen(
                     decisions = listOf(elenaDecision, diegoDecision),
@@ -133,8 +141,17 @@ fun AppNavigation() {
                     onBack = { navController.popBackStack() }
                 )
             }
+
+            composable(
+                route = Routes.ACTIVITY_DETAIL,
+                arguments = listOf(navArgument("activityId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("activityId") ?: return@composable
+                ActivityDetailScreen(activityId = id, onBack = { navController.popBackStack() })
+            }
         }
     }
+
     unavailableSection?.let { section ->
         AlertDialog(
             onDismissRequest = { unavailableSection = null },
