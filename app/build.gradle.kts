@@ -1,11 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
 
 android {
     namespace = "servando.contreras.buscadordecompaerosdeactividades"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "servando.contreras.buscadordecompaerosdeactividades"
@@ -32,6 +33,12 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
     }
 }
 
