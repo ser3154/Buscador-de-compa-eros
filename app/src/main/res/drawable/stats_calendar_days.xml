@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icono calendar-days del diseño de Figma (Mis estadísticas). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="18dp"
+    android:height="18dp"
+    android:viewportWidth="18"
+    android:viewportHeight="18">
+    <path
+        android:pathData="M3.75 3H14.25C15.0784 3 15.75 3.67157 15.75 4.5V15C15.75 15.8284 15.0784 16.5 14.25 16.5H3.75C2.92157 16.5 2.25 15.8284 2.25 15V4.5C2.25 3.67157 2.92157 3 3.75 3Z"
+        android:strokeColor="#20CBE3"
+        android:strokeWidth="1.3125"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M12 1.5V4.5"
+        android:strokeColor="#20CBE3"
+        android:strokeWidth="1.3125"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M6 1.5V4.5"
+        android:strokeColor="#20CBE3"
+        android:strokeWidth="1.3125"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M2.25 7.5H15.75"
+        android:strokeColor="#20CBE3"
+        android:strokeWidth="1.3125"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

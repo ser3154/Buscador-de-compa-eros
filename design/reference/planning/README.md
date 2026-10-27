@@ -13,13 +13,22 @@ Entrar → Mis planes → Solicitudes para participar. La flecha superior permit
 
 ## Integración pendiente
 
-Los datos son locales de demostración; no existe conexión con un servidor. «Ver actividad» muestra un resumen en un diálogo hasta conectar la pantalla de detalle del equipo. Mensajes y Perfil muestran un aviso mientras se integran esas rutas. Se adaptó el regreso de solicitudes al calendario para poder recorrer ambas pantallas.
+Los datos son locales de demostración; no existe conexión con un servidor. «Ver actividad» muestra un resumen en un diálogo hasta conectar la pantalla de detalle del equipo. Mensajes muestra un aviso mientras se integra esa ruta; Perfil ya abre Mi perfil (ver abajo). Se adaptó el regreso de solicitudes al calendario para poder recorrer ambas pantallas.
 
 Los SVG y PNG originales se conservan como referencia del diseño. La barra inferior usa ahora el componente compartido CoincideNavigationBar con los iconos Material del inicio. Las pantallas usan la fuente sans serif del sistema.
 
 
 ## Tema y barra compartida
 
-La barra inferior se define una sola vez en AppNavigation para Explorar, Calendario, Solicitudes y Crear actividad. Conserva el diseño del inicio: cuatro iconos, etiquetas y un indicador redondeado. Las pantallas de acceso no muestran esta barra.
+La barra inferior se define una sola vez en AppNavigation para Explorar, Calendario, Solicitudes, Crear actividad y Mi perfil. Conserva el diseño del inicio: cuatro iconos, etiquetas y un indicador redondeado. Las pantallas de acceso no muestran esta barra.
 
-Theme.kt selecciona automáticamente la paleta clara u oscura con isSystemInDarkTheme(). Color.kt y PlanningColors consultan colores semánticos del tema para fondos, superficies, bordes, texto y botones. La paleta mantiene el acento turquesa de la aplicación.
+Theme.kt selecciona automáticamente la paleta clara u oscura con isSystemInDarkTheme(); desde Configuración se puede forzar el modo claro u oscuro. Color.kt y PlanningColors consultan colores semánticos del tema para fondos, superficies, bordes, texto y botones. La paleta mantiene el acento turquesa de la aplicación.
+
+
+## Mi perfil, Configuración y Mis estadísticas
+
+- `ProfileScreen.kt`: Mi perfil con estilo Instagram. Avatar con aro degradado, contadores (actividades, organizadas, amigos), biografía e intereses, botones Editar perfil / Ver perfil público / Compartir, historias destacadas «Solo para ti» (Mi círculo, Historial, Estadísticas, Ajustes, Nueva) y pestañas Próximas, Organizo e Historial (cuadrícula de 3 columnas).
+- `SettingsScreen.kt`: edita el perfil (nombre, usuario, correo, ciudad, biografía y foto JPG/PNG de hasta 10 MB), cambia entre modo claro y oscuro, activa la biometría, cambia la contraseña y cierra sesión. «Guardar cambios» actualiza Mi perfil.
+- `StatisticsScreen.kt`: filtros por periodo (7 días, 30 días, 3 meses, este año o un rango personalizado). Las cifras se calculan con `data/ActivityHistory.kt`; con «3 meses» coinciden con el diseño.
+
+Los datos son de demostración y la fecha de referencia de las estadísticas es el 15 de octubre de 2026. Los iconos de estadísticas (`stats_*.xml`) y la foto `profile_cafe_apuntes.jpg` vienen del archivo de Figma.

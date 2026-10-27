@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icono arrow-left del diseño de Figma (Mis estadísticas). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="20dp"
+    android:height="20dp"
+    android:viewportWidth="20"
+    android:viewportHeight="20">
+    <path
+        android:pathData="M10 4.166L4.166 10L10 15.834M4.166 10H15.834"
+        android:strokeColor="#C9DCE2"
+        android:strokeWidth="1"
+        android:strokeLineCap="round" />
+</vector>

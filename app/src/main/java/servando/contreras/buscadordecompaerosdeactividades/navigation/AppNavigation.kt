@@ -24,6 +24,10 @@ import servando.contreras.buscadordecompaerosdeactividades.screens.NewActivitySc
 import servando.contreras.buscadordecompaerosdeactividades.screens.RegisterScreen
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import servando.contreras.buscadordecompaerosdeactividades.data.UserProfile
+import servando.contreras.buscadordecompaerosdeactividades.screens.ProfileScreen
+import servando.contreras.buscadordecompaerosdeactividades.screens.SettingsScreen
+import servando.contreras.buscadordecompaerosdeactividades.screens.StatisticsScreen
 
 object Routes {
     const val LOGIN = "login"
@@ -34,19 +38,27 @@ object Routes {
     const val CALENDAR = "calendar"
     const val PARTICIPATION_REQUESTS = "participation_requests"
     const val ACTIVITY_DETAIL = "activity_detail/{activityId}"
+    const val PROFILE = "profile"
+    const val SETTINGS = "settings"
+    const val STATISTICS = "statistics"
 
     fun activityDetail(id: Int) = "activity_detail/$id"
 }
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(
+    darkTheme: Boolean = false,
+    onDarkThemeChange: (Boolean) -> Unit = {}
+) {
     val navController = rememberNavController()
     var elenaDecision by rememberSaveable { mutableStateOf(ParticipationDecision.PENDING) }
     var diegoDecision by rememberSaveable { mutableStateOf(ParticipationDecision.PENDING) }
+    var profile by rememberSaveable(stateSaver = UserProfile.Saver) { mutableStateOf(UserProfile.Sample) }
+    var biometricEnabled by rememberSaveable { mutableStateOf(true) }
 
     val backStackEntry by navController.currentBackStackEntryAsState()
     val route = backStackEntry?.destination?.route
-    val mainRoutes = setOf(Routes.EXPLORE, Routes.CALENDAR, Routes.PARTICIPATION_REQUESTS, Routes.NEW_ACTIVITY)
+    val mainRoutes = setOf(Routes.EXPLORE, Routes.CALENDAR, Routes.PARTICIPATION_REQUESTS, Routes.NEW_ACTIVITY, Routes.PROFILE)
     var unavailableSection by rememberSaveable { mutableStateOf<String?>(null) }
 
     fun openMainRoute(destination: String) {
@@ -62,13 +74,17 @@ fun AppNavigation() {
         bottomBar = {
             if (route in mainRoutes) {
                 CoincideNavigationBar(
-                    selectedTab = if (route == Routes.CALENDAR || route == Routes.PARTICIPATION_REQUESTS) 1 else 0,
+                    selectedTab = when (route) {
+                        Routes.CALENDAR, Routes.PARTICIPATION_REQUESTS -> 1
+                        Routes.PROFILE -> 3
+                        else -> 0
+                    },
                     onSelect = { index ->
                         when (index) {
                             0 -> openMainRoute(Routes.EXPLORE)
                             1 -> openMainRoute(Routes.CALENDAR)
                             2 -> unavailableSection = "Mensajes"
-                            3 -> unavailableSection = "Perfil"
+                            3 -> openMainRoute(Routes.PROFILE)
                         }
                     }
                 )
@@ -140,6 +156,43 @@ fun AppNavigation() {
                     },
                     onBack = { navController.popBackStack() }
                 )
+            }
+
+            composable(Routes.PROFILE) {
+                ProfileScreen(
+                    profile = profile,
+                    onEditProfile = { navController.navigate(Routes.SETTINGS) { launchSingleTop = true } },
+                    onSettings = { navController.navigate(Routes.SETTINGS) { launchSingleTop = true } },
+                    onStatistics = { navController.navigate(Routes.STATISTICS) { launchSingleTop = true } },
+                    onCalendar = { openMainRoute(Routes.CALENDAR) },
+                    onNewActivity = { navController.navigate(Routes.NEW_ACTIVITY) },
+                    onUnavailable = { section -> unavailableSection = section }
+                )
+            }
+
+            composable(Routes.SETTINGS) {
+                SettingsScreen(
+                    profile = profile,
+                    darkTheme = darkTheme,
+                    biometricEnabled = biometricEnabled,
+                    onDarkThemeChange = onDarkThemeChange,
+                    onBiometricChange = { biometricEnabled = it },
+                    onSave = { updated ->
+                        profile = updated
+                        navController.popBackStack()
+                    },
+                    onChangePassword = { navController.navigate(Routes.FORGOT) },
+                    onLogout = {
+                        navController.navigate(Routes.LOGIN) {
+                            popUpTo(navController.graph.id) { inclusive = true }
+                        }
+                    },
+                    onBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(Routes.STATISTICS) {
+                StatisticsScreen(onBack = { navController.popBackStack() })
             }
 
             composable(
