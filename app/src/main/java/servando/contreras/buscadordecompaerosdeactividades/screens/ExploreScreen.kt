@@ -3,7 +3,6 @@ package servando.contreras.buscadordecompaerosdeactividades.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
@@ -14,10 +13,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Place
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,57 +24,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import servando.contreras.buscadordecompaerosdeactividades.componenets.CategoryChip
-import servando.contreras.buscadordecompaerosdeactividades.data.ActivityItem
+import servando.contreras.buscadordecompaerosdeactividades.data.Plan
 import servando.contreras.buscadordecompaerosdeactividades.data.SampleData
 import servando.contreras.buscadordecompaerosdeactividades.ui.theme.*
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ExploreScreen(onNewActivity: () -> Unit, onActivityClick: (Int) -> Unit){
+fun ExploreScreen(onNewActivity: () -> Unit){
     var search by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf("Todo") }
-    var selectedTab by remember { mutableStateOf(0) }
 
     val categories = SampleData.filterCategories
-    val activities = SampleData.activities
-    val tabs = listOf(
-        "Explorar" to Icons.Default.Place,
-        "Mis planes" to Icons.Default.DateRange,
-        "Mensajes" to Icons.Default.Email,
-        "Perfil" to Icons.Default.Person
-    )
-
+    val plans = SampleData.plans
     Scaffold(
         containerColor = CoincideBackground,
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNewActivity,
                 containerColor = CoincidePrimary,
-                contentColor = CoincideDark,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Nueva actividad")
             }
         },
-        bottomBar = {
-            NavigationBar(containerColor = Color.White) {
-                tabs.forEachIndexed { index, (label, icon) ->
-                    NavigationBarItem(
-                        selected = selectedTab == index,
-                        onClick = { selectedTab = index },
-                        icon = { Icon(icon, contentDescription = label) },
-                        label = { Text (label, fontSize = 10.sp) },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = CoincideTeal,
-                            selectedTextColor = CoincideTeal,
-                            indicatorColor = CoincideSoft,
-                            unselectedIconColor = CoincideHint,
-                            unselectedTextColor = CoincideHint
-                        )
-                    )
-                }
-            }
-        }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -129,8 +97,8 @@ fun ExploreScreen(onNewActivity: () -> Unit, onActivityClick: (Int) -> Unit){
                 singleLine = true,
                 shape = RoundedCornerShape(10.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                     focusedBorderColor = CoincidePrimary,
                     unfocusedBorderColor = CoincideBorder,
                     focusedTextColor = CoincideDark,
@@ -165,11 +133,11 @@ fun ExploreScreen(onNewActivity: () -> Unit, onActivityClick: (Int) -> Unit){
             Spacer(Modifier.height(20.dp))
             Text("Cerca de ti", fontSize = 17.sp, fontWeight = FontWeight.Bold, color = CoincideDark)
             Spacer(Modifier.height(2.dp))
-            Text("${activities.size} planes · por cercanía", fontSize = 11.sp, color = CoincideHint)
+            Text("${plans.size} planes · por cercanía", fontSize = 11.sp, color = CoincideHint)
             Spacer(Modifier.height(12.dp))
 
-            activities.forEach { activity ->
-                ActivityCard(activity, onClick = { onActivityClick(activity.id) } )
+            plans.forEach { plan ->
+                PlanCard(plan)
                 Spacer(Modifier.height(14.dp))
             }
 
@@ -179,19 +147,18 @@ fun ExploreScreen(onNewActivity: () -> Unit, onActivityClick: (Int) -> Unit){
 }
 
 @Composable
-private fun ActivityCard(activity: ActivityItem, onClick: () -> Unit) {
+private fun PlanCard(plan: Plan) {
     val shape = RoundedCornerShape(14.dp)
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape)
-            .clickable{ onClick() }
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .border(1.dp, CoincideBorder, shape)
     ) {
-        if (activity.imageRes != null) {
+        if (plan.imageRes != null) {
             Image(
-                painter = painterResource(activity.imageRes),
+                painter = painterResource(plan.imageRes),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -208,13 +175,13 @@ private fun ActivityCard(activity: ActivityItem, onClick: () -> Unit) {
         }
 
         Column(modifier = Modifier.padding(12.dp)) {
-            CategoryChip(activity.category)
+            CategoryChip(plan.category)
             Spacer(Modifier.height(10.dp))
-            Text(activity.date, fontSize = 11.sp, fontWeight = FontWeight.Medium, color = CoincideTeal)
+            Text(plan.date, fontSize = 11.sp, fontWeight = FontWeight.Medium, color = CoincideTeal)
             Spacer(Modifier.height(4.dp))
-            Text(activity.title, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = CoincideDark)
+            Text(plan.title, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = CoincideDark)
             Spacer(Modifier.height(2.dp))
-            Text(activity.place, fontSize = 11.sp, color = CoincideHint)
+            Text(plan.place, fontSize = 11.sp, color = CoincideHint)
         }
     }
 }

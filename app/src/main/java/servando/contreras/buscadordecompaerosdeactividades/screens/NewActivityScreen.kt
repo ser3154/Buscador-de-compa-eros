@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -70,13 +71,13 @@ fun NewActivityScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFFD9F2E6), RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.tertiaryContainer, RoundedCornerShape(12.dp))
                 .padding(14.dp)
         ) {
             Text(
                 "No hace falta un gran plan. Solo ganas de compartirlo.",
                 fontSize = 12.sp,
-                color = Color(0xFF1F6B4A)
+                color = MaterialTheme.colorScheme.onTertiaryContainer
             )
         }
 
