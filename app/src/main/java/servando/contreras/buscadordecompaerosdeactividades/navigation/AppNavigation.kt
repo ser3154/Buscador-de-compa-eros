@@ -1,13 +1,12 @@
 package servando.contreras.buscadordecompaerosdeactividades.navigation
 
-import ActivityDetailScreen
+import servando.contreras.buscadordecompaerosdeactividades.screens.ActivityDetailScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import servando.contreras.buscadordecompaerosdeactividades.screens.ExploreScreen
 import servando.contreras.buscadordecompaerosdeactividades.screens.ForgotPasswordScreen
-import servando.contreras.buscadordecompaerosdeactividades.screens.HomeScreen
 import servando.contreras.buscadordecompaerosdeactividades.screens.LoginScreen
 import servando.contreras.buscadordecompaerosdeactividades.screens.NewActivityScreen
 import servando.contreras.buscadordecompaerosdeactividades.screens.RegisterScreen
@@ -23,7 +22,7 @@ object Routes {
 
     const val ACTIVITY_DETAIL = "activity_detail/{activityId}"
 
-    //fun activityDetail(id: Int) = "activity_detail/$id"
+    fun activityDetail(id: Int) = "activity_detail/$id"
 }
 
 @Composable
@@ -65,7 +64,8 @@ fun AppNavigation() {
 
         composable(Routes.EXPLORE) {
             ExploreScreen(
-                onNewActivity = { navController.navigate(Routes.NEW_ACTIVITY) }
+                onNewActivity = { navController.navigate(Routes.NEW_ACTIVITY) },
+                onActivityClick = { navController.navigate(Routes.activityDetail(it))}
             )
         }
 
