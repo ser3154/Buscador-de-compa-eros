@@ -9,7 +9,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -27,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import servando.contreras.buscadordecompaerosdeactividades.componenets.*
 import servando.contreras.buscadordecompaerosdeactividades.data.ActivityItem
-import servando.contreras.buscadordecompaerosdeactividades.data.ParticipationState
 import servando.contreras.buscadordecompaerosdeactividades.data.SampleData
 import servando.contreras.buscadordecompaerosdeactividades.ui.theme.*
 
@@ -93,6 +95,18 @@ private fun ActivityDetailContent(activity: ActivityItem, onBack: () -> Unit) {
     InfoCard(Icons.Default.DateRange, "Cuándo nos vemos", "${activity.date} · ${activity.time}")
     Spacer(Modifier.height(10.dp))
     InfoCard(Icons.Default.Place, "Punto de encuentro", "${activity.place} · ${activity.distance}")
+    Spacer(Modifier.height(10.dp))
+    InfoCard(Icons.Default.Info, "Precio aproximado", activity.priceRange)
+    Spacer(Modifier.height(10.dp))
+    InfoCard(
+        Icons.Default.Person, "Participantes",
+        "${activity.confirmed.size} de ${activity.maxParticipants} lugares ocupados"
+    )
+    Spacer(Modifier.height(10.dp))
+    InfoCard(
+        Icons.Default.Check, "Como unirse",
+        if (activity.requiresApproval) "Requiere aceptacion del organizador" else "Union directa"
+    )
 
 }
 
