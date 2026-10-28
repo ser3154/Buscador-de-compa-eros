@@ -69,6 +69,7 @@ fun ActivityDetailScreen(activityId: Int, onBack: () -> Unit) {
 private fun ActivityDetailContent(activity: ActivityItem, onBack: () -> Unit) {
 
     var participation by remember { mutableStateOf(activity.participation) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     ActivityImage(activity.imageRes)
     Spacer(Modifier.height(12.dp))
@@ -150,10 +151,32 @@ private fun ActivityDetailContent(activity: ActivityItem, onBack: () -> Unit) {
             OutlineButton("Abandonar actividad", onClick = { participation = ParticipationState.VISITOR })
         }
         ParticipationState.CREATOR -> {
-            InfoBanner("Este plan es tuyo", "Aqui podras editarlo o eliminarlo")
+            SoftButton("Editar actividad", onClick = { /* falta abrir newactivityscreen en modo edicion */ })
+            Spacer(Modifier.height(12.dp))
+            OutlineButton("Eliminar actividad", onClick = { showDeleteDialog = true })
         }
     }
     Spacer(Modifier.height(16.dp))
+
+    if (showDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeleteDialog = false },
+            title = { Text("¿Eliminar actividad?") },
+            text = { Text("Esta accion no se puede deshacer") },
+            confirmButton = {
+                TextButton(
+                    onClick = { showDeleteDialog = false; onBack() },
+                    colors = ButtonDefaults.textButtonColors(contentColor = CoincideTeal)
+                ) { Text("Eliminar") }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showDeleteDialog = false },
+                    colors = ButtonDefaults.textButtonColors(contentColor = CoincideHint)
+                ) { Text("Cancelar") }
+            }
+        )
+    }
 }
 
 @Composable
@@ -202,3 +225,4 @@ private fun InfoCard(icon: ImageVector, label: String, value: String) {
         }
     }
 }
+
