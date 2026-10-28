@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import servando.contreras.buscadordecompaerosdeactividades.componenets.*
 import servando.contreras.buscadordecompaerosdeactividades.data.ActivityItem
+import servando.contreras.buscadordecompaerosdeactividades.data.ParticipationState
 import servando.contreras.buscadordecompaerosdeactividades.data.SampleData
 import servando.contreras.buscadordecompaerosdeactividades.ui.theme.*
 
@@ -66,6 +67,9 @@ fun ActivityDetailScreen(activityId: Int, onBack: () -> Unit) {
 
 @Composable
 private fun ActivityDetailContent(activity: ActivityItem, onBack: () -> Unit) {
+
+    var participation by remember { mutableStateOf(activity.participation) }
+
     ActivityImage(activity.imageRes)
     Spacer(Modifier.height(12.dp))
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -107,7 +111,30 @@ private fun ActivityDetailContent(activity: ActivityItem, onBack: () -> Unit) {
         Icons.Default.Check, "Como unirse",
         if (activity.requiresApproval) "Requiere aceptacion del organizador" else "Union directa"
     )
-
+    Spacer(Modifier.height(20.dp))
+    when (participation) {
+        ParticipationState.VISITOR -> PrimaryButton(
+            if (activity.requiresApproval) "Solicitar unirme" else "Unirme a la actividad",
+            onClick = {
+                participation = if (activity.requiresApproval) ParticipationState.PENDING
+                else ParticipationState.PARTICIPANT
+            }
+        )
+        ParticipationState.PENDING -> {
+            InfoBanner("Solicitud enviada", "El organizador revisara tu solicitud")
+            Spacer(Modifier.height(12.dp))
+            OutlineButton("Cancelar solicitud", onClick = { participation = ParticipationState.VISITOR })
+        }
+        ParticipationState.PARTICIPANT -> {
+            InfoBanner("¡Ya formas parte del plan!", "Tu lugar esta confirmado")
+            Spacer(Modifier.height(12.dp))
+            OutlineButton("Abandonar actividad", onClick = { participation = ParticipationState.VISITOR })
+        }
+        ParticipationState.CREATOR -> {
+            InfoBanner("Este plan es tuyo", "Aqui podras editarlo o eliminarlo")
+        }
+    }
+    Spacer(Modifier.height(16.dp))
 }
 
 @Composable
