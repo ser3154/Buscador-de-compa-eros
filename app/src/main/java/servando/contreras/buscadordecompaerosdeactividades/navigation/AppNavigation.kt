@@ -1,6 +1,6 @@
 package servando.contreras.buscadordecompaerosdeactividades.navigation
 
-import ActivityDetailScreen
+import servando.contreras.buscadordecompaerosdeactividades.screens.ActivityDetailScreen
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
@@ -130,7 +130,8 @@ fun AppNavigation(
 
             composable(Routes.EXPLORE) {
                 ExploreScreen(
-                    onNewActivity = { navController.navigate(Routes.NEW_ACTIVITY) }
+                    onNewActivity = { navController.navigate(Routes.NEW_ACTIVITY) },
+                    onActivityClick = { navController.navigate(Routes.activityDetail(it)) }
                 )
             }
 
