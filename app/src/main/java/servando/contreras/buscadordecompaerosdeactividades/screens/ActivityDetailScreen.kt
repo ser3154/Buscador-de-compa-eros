@@ -70,6 +70,7 @@ private fun ActivityDetailContent(activity: ActivityItem, onBack: () -> Unit) {
 
     var participation by remember { mutableStateOf(activity.participation) }
     var showDeleteDialog by remember { mutableStateOf(false) }
+    var showBiometric by remember { mutableStateOf(false) }
 
     ActivityImage(activity.imageRes)
     Spacer(Modifier.height(12.dp))
@@ -165,13 +166,32 @@ private fun ActivityDetailContent(activity: ActivityItem, onBack: () -> Unit) {
             text = { Text("Esta accion no se puede deshacer") },
             confirmButton = {
                 TextButton(
-                    onClick = { showDeleteDialog = false; onBack() },
+                    onClick = { showDeleteDialog = false; showBiometric = true },
                     colors = ButtonDefaults.textButtonColors(contentColor = CoincideTeal)
                 ) { Text("Eliminar") }
             },
             dismissButton = {
                 TextButton(
                     onClick = { showDeleteDialog = false },
+                    colors = ButtonDefaults.textButtonColors(contentColor = CoincideHint)
+                ) { Text("Cancelar") }
+            }
+        )
+    }
+    if (showBiometric) {
+        AlertDialog(
+            onDismissRequest = { showBiometric = false },
+            title = { Text("Verifica tu identidad") },
+            text = { Text("Coloca tu huella para confirmar que quieres eliminar la actividad") },
+            confirmButton = {
+                TextButton(
+                    onClick = { showBiometric = false; onBack() },
+                    colors = ButtonDefaults.textButtonColors(contentColor = CoincideTeal)
+                ) { Text("Simular huella") }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showBiometric = false },
                     colors = ButtonDefaults.textButtonColors(contentColor = CoincideHint)
                 ) { Text("Cancelar") }
             }
