@@ -111,6 +111,25 @@ private fun ActivityDetailContent(activity: ActivityItem, onBack: () -> Unit) {
         Icons.Default.Check, "Como unirse",
         if (activity.requiresApproval) "Requiere aceptacion del organizador" else "Union directa"
     )
+
+    Spacer(Modifier.height(20.dp))
+    Text(
+        "Participantes confirmados (${activity.confirmed.size}/${activity.maxParticipants})",
+        fontSize = 17.sp, fontWeight = FontWeight.Bold, color = CoincideDark
+    )
+    Spacer(Modifier.height(10.dp))
+    if (activity.confirmed.isEmpty()) {
+        Text("Aun no hay confirmados", fontSize = 12.sp, color = CoincideHint)
+    } else {
+        activity.confirmed.forEach { name ->
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(vertical = 4.dp)) {
+                Avatar(name, size = 32.dp)
+                Spacer(Modifier.width(10.dp))
+                Text(name, fontSize = 13.sp, color = CoincideDark)
+            }
+        }
+    }
+
     Spacer(Modifier.height(20.dp))
     when (participation) {
         ParticipationState.VISITOR -> PrimaryButton(
