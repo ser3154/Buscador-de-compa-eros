@@ -8,6 +8,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -79,7 +83,16 @@ private fun ActivityDetailContent(activity: ActivityItem, onBack: () -> Unit) {
             Text("Organizador/a", fontSize = 11.sp, color = CoincideHint)
         }
     }
-
+    Spacer(Modifier.height(16.dp))
+    Box(Modifier.fillMaxWidth().height(1.dp).background(CoincideBorder))
+    Spacer(Modifier.height(16.dp))
+    Text("Sobre el plan", fontSize = 17.sp, fontWeight = FontWeight.Bold, color = CoincideDark)
+    Spacer(Modifier.height(8.dp))
+    Text(activity.description, fontSize = 13.sp, lineHeight = 20.sp, color = CoincideDark)
+    Spacer(Modifier.height(16.dp))
+    InfoCard(Icons.Default.DateRange, "Cuándo nos vemos", "${activity.date} · ${activity.time}")
+    Spacer(Modifier.height(10.dp))
+    InfoCard(Icons.Default.Place, "Punto de encuentro", "${activity.place} · ${activity.distance}")
 
 }
 
@@ -108,5 +121,24 @@ private fun Avatar(name: String, size: Dp = 38.dp) {
         contentAlignment = Alignment.Center
     ) {
         Text(initials, fontSize = 11.sp, fontWeight = FontWeight.Bold, color = CoincideTeal)
+    }
+}
+
+@Composable
+private fun InfoCard(icon: ImageVector, label: String, value: String) {
+    val shape = RoundedCornerShape(12.dp)
+    Row(
+        modifier = Modifier.fillMaxWidth()
+            .background(Color.White, shape)
+            .border(1.dp, CoincideBorder, shape)
+            .padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(icon, contentDescription = null, tint = CoincideTeal, modifier = Modifier.size(20.dp))
+        Spacer(Modifier.width(10.dp))
+        Column {
+            Text(label, fontSize = 11.sp, color = CoincideHint)
+            Text(value, fontSize = 13.sp, fontWeight = FontWeight.Medium, color = CoincideDark)
+        }
     }
 }
